@@ -4,17 +4,13 @@ public class Program
     {
         const string file_name = @"";
 
-        bool CheckSafety(List<int> lst, Func<int, int, bool> func)
-        {
-            for (int i = 1; i < lst.Count; i++)
-            {
-                if (lst[i - 1] == lst[i] || !func(lst[i - 1], lst[i]))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        bool CheckSafety(List<int> lst, Func<int, int, bool> pred) => lst
+            .Zip(lst.Skip(1))
+            .All(x => x.First != x.Second && pred(x.First, x.Second));
+
+        Func<int, int, bool> GivePredicate(bool input) => input
+                ? (prev, curr) => prev < curr && prev + 3 >= curr
+                : (prev, curr) => prev > curr && prev - 3 <= curr;
 
         int res_1 = 0, res_2 = 0;
 
@@ -24,38 +20,20 @@ public class Program
                 .Select(int.Parse)
                 .ToList();
 
-            Func<int, int, bool> func = lst[0] < lst[^1]
-                ? (prev, curr) => prev < curr && prev + 3 >= curr
-                : (prev, curr) => prev > curr && prev - 3 <= curr;
-
-            if (CheckSafety(lst, func))
-            {
-                res_1++;
-                res_2++;
-            }
-            else 
-            {
-                for (int i = 0; i < lst.Count; i++)
+            res_1 += CheckSafety(lst, GivePredicate(lst[0] < lst[^1])) ? 1 : 0;
+            res_2 += lst
+                .Select((_, index) => index)
+                .Where(index =>
                 {
-                    int temp = lst[i];
-                    lst.RemoveAt(i);
+                    var tempList = lst.Where((_, idx) => idx != index).ToList();
 
-                    func = lst[0] < lst[^1]
-                        ? (prev, curr) => prev < curr && prev + 3 >= curr
-                        : (prev, curr) => prev > curr && prev - 3 <= curr;
-
-                    if (CheckSafety(lst, func))
-                    {
-                        res_2++;
-                        break;
-                    }
-
-                    lst.Insert(i, temp);
-                }
-            }
+                    return CheckSafety(tempList, GivePredicate(tempList[0] < tempList[^1]));
+                })
+                .Any() ? 1 : 0;
         }
 
         Console.WriteLine($"Res 1 : {res_1}");
         Console.WriteLine($"Res 2 : {res_2}");
     }
 }
+
