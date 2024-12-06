@@ -1,8 +1,10 @@
-public class Program
+using AoC;
+
+public class Day4 : IRun
 {
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc4.txt");
         int res_1 = 0, res_2 = 0;
 
         bool MatchXMAS(char c1, char c2, char c3, char c4) 
@@ -31,7 +33,7 @@ public class Program
             }
         }
 
-        Console.WriteLine($"Res 1 : {res_1}");
-        Console.WriteLine($"Res 2 : {res_2}");
+        Console.WriteLine($"Res 1 : {res_1}"); // 2414
+        Console.WriteLine($"Res 2 : {res_2}"); // 1871
     }
 }

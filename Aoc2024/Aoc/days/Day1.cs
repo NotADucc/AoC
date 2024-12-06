@@ -1,8 +1,10 @@
-public class Program
+using AoC;
+
+public class Day1 : IRun
 {
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc1.txt");
 
         (int[] arr1, int[] arr2) = File.ReadAllLines(file_name)
             .Select(line => line.Split("   ").Select(int.Parse).ToArray())
@@ -27,7 +29,7 @@ public class Program
             .Sum();
 
 
-        Console.WriteLine($"Res 1: {res_1}");
-        Console.WriteLine($"Res 2: {res_2}");
+        Console.WriteLine($"Res 1: {res_1}"); // 2113135
+        Console.WriteLine($"Res 2: {res_2}"); // 19097157
     }
 }

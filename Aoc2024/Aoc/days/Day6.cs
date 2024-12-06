@@ -1,9 +1,11 @@
-public class Program
+using AoC;
+
+public class Day6 : IRun
 {
     private static readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc6.txt");
 
         int res_1 = 0, res_2 = 0;
 
@@ -54,8 +56,8 @@ public class Program
         }
         if (visited.Add((guard_pos[0], guard_pos[1]))) res_1++;
       
-        Console.WriteLine($"Res 1 : {res_1}");
-        Console.WriteLine($"Res 2 : {res_2}");
+        Console.WriteLine($"Res 1 : {res_1}"); // 5564
+        Console.WriteLine($"Res 2 : {res_2}"); // 1976
     }
 
     private static bool DoesLoop(HashSet<(int, int)> obs, int current_dir, int g_r, int g_c, int n, int m)

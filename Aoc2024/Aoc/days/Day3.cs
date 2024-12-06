@@ -1,10 +1,11 @@
+using AoC;
 using System.Text.RegularExpressions;
 
-public class Program
+public class Day3 : IRun
 {
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc3.txt");
         Regex rgx = new Regex("mul[(]\\d{1,3},\\d{1,3}[)]|do[(][)]|don't[(][)]", RegexOptions.Compiled);
         bool mul = true;
 
@@ -28,7 +29,7 @@ public class Program
                     })
             ).ToArray();
 
-        Console.WriteLine($"Res 1 : {res.Sum(x => x.Item1)}");
-        Console.WriteLine($"Res 2 : {res.Sum(x => x.Item2)}");
+        Console.WriteLine($"Res 1 : {res.Sum(x => x.Item1)}"); // 171183089
+        Console.WriteLine($"Res 2 : {res.Sum(x => x.Item2)}"); // 63866497
     }
 }

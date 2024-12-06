@@ -1,8 +1,10 @@
-public class Program
+using AoC;
+
+public class Day2 : IRun
 {
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc2.txt");
 
         bool CheckSafety(List<int> lst)
         {
@@ -31,7 +33,7 @@ public class Program
                 return new { res_1, res_2 };
             }).ToArray();
 
-        Console.WriteLine($"Res 1 : {res.Sum(x => x.res_1)}");
-        Console.WriteLine($"Res 2 : {res.Sum(x => x.res_2)}");
+        Console.WriteLine($"Res 1 : {res.Sum(x => x.res_1)}"); // 564
+        Console.WriteLine($"Res 2 : {res.Sum(x => x.res_2)}"); // 604
     }
 }

@@ -1,8 +1,10 @@
-public class Program
+using AoC;
+
+public class Day5 : IRun
 {
-    private static void Main(string[] args)
+    public void Run()
     {
-        const string file_name = @"";
+        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc5.txt");
         int res_1 = 0, res_2 = 0;
 
         bool first_half = false;
@@ -73,7 +75,7 @@ public class Program
             }
         }
 
-        Console.WriteLine($"Res 1 : {res_1}");
-        Console.WriteLine($"Res 2 : {res_2}");
+        Console.WriteLine($"Res 1 : {res_1}"); // 5166
+        Console.WriteLine($"Res 2 : {res_2}"); // 4679
     }
 }
