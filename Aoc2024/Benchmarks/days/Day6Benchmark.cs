@@ -1,9 +1,10 @@
 ﻿using AoC;
+using AoC.benchmark;
 using BenchmarkDotNet.Attributes;
 
-namespace AoC.benchmark
+namespace Benchmarks.days
 {
-    public class Day6BM : BenchmarkAttributes
+    public class Day6Benchmark : BenchmarkAttributes
     {
         [Benchmark(Baseline = true)]
         public int Refactored()
@@ -24,7 +25,7 @@ namespace AoC.benchmark
 public class Day6Old : IRun
 {
     private readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
-    public void Run()
+    public (long, long) Run()
     {
         string file_name = Path.Combine(Helper.GetFilesDir(), "aoc6.txt");
 
@@ -77,8 +78,7 @@ public class Day6Old : IRun
         }
         if (visited.Add((guard_pos[0], guard_pos[1]))) res_1++;
 
-        //Console.WriteLine($"Res 1 : {res_1}"); // 5564
-        //Console.WriteLine($"Res 2 : {res_2}"); // 1976
+        return (res_1, res_2);
     }
 
     private int DoesLoop(HashSet<(int, int)> obs, int current_dir, int g_r, int g_c, int n, int m)
