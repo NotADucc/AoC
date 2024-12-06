@@ -1,6 +1,27 @@
-using AoC;
+﻿using AoC;
+using BenchmarkDotNet.Attributes;
 
-public class Day6 : IRun
+namespace AoC.benchmark
+{
+    public class Day6BM : BenchmarkAttributes
+    {
+        [Benchmark(Baseline = true)]
+        public int Refactored()
+        {
+            new Day6().Run();
+            return -1;
+        }
+
+        [Benchmark]
+        public int Old()
+        {
+            new Day6Old().Run();
+            return -1;
+        }
+    }
+}
+
+public class Day6Old : IRun
 {
     private readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
     public void Run()
@@ -56,8 +77,8 @@ public class Day6 : IRun
         }
         if (visited.Add((guard_pos[0], guard_pos[1]))) res_1++;
 
-        Console.WriteLine($"Res 1 : {res_1}"); // 5564
-        Console.WriteLine($"Res 2 : {res_2}"); // 1976
+        //Console.WriteLine($"Res 1 : {res_1}"); // 5564
+        //Console.WriteLine($"Res 2 : {res_2}"); // 1976
     }
 
     private int DoesLoop(HashSet<(int, int)> obs, int current_dir, int g_r, int g_c, int n, int m)
