@@ -2,5 +2,5 @@
 
 public interface IRun
 {
-    void Run();
+    (long, long) Run();
 }

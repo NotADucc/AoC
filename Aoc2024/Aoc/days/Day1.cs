@@ -2,7 +2,7 @@ using AoC;
 
 public class Day1 : IRun
 {
-    public void Run()
+    public (long, long) Run()
     {
         string file_name = Path.Combine(Helper.GetFilesDir(), "aoc1.txt");
 
@@ -31,5 +31,7 @@ public class Day1 : IRun
 
         Console.WriteLine($"Res 1: {res_1}"); // 2113135
         Console.WriteLine($"Res 2: {res_2}"); // 19097157
+
+        return (res_1, res_2);
     }
 }
