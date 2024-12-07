@@ -8,7 +8,7 @@ public class Day7 : IRun
         long res_1 = 0, res_2 = 0;
 
         bool Calc(long res, long curr, List<long> nums, int idx, bool pipe)
-            => idx >= nums.Count 
+            => idx >= nums.Count || curr > res
                 ? res == curr 
                 : Calc(res, curr + nums[idx], nums, idx + 1, pipe) || Calc(res, curr * nums[idx], nums, idx + 1, pipe)
                 || (pipe && Calc(res, Combine(curr, nums[idx]), nums, idx + 1, pipe));
