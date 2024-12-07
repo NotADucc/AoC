@@ -8,22 +8,23 @@ public class Day7 : IRun
         long res_1 = 0, res_2 = 0;
 
         bool Calc(long res, long curr, List<long> nums, int idx, bool pipe)
-        {
-            if (idx >= nums.Count)
-            {
-                return res == curr;
-            }
-            else 
-            {
-                return Calc(res, curr + nums[idx], nums, idx + 1, pipe) 
-                    || Calc(res, curr * nums[idx], nums, idx + 1, pipe)
-                    || (pipe && Calc(res, Combine(curr, nums[idx]), nums, idx + 1, pipe));
-            }
-        }
+            => idx >= nums.Count 
+                ? res == curr 
+                : Calc(res, curr + nums[idx], nums, idx + 1, pipe) || Calc(res, curr * nums[idx], nums, idx + 1, pipe)
+                || (pipe && Calc(res, Combine(curr, nums[idx]), nums, idx + 1, pipe));
 
         long Combine(long num1, long num2)
         {
-            return long.Parse($"{num1}{num2}");
+            long i = 1;
+            while (i * 10 <= num2) i *= 10;
+
+            for (; i > 0; i /= 10)
+            {
+                num1 *= 10;
+                num1 += num2 / i;
+                num2 %= i;
+            }
+            return num1;
         }
 
         foreach (var line in File.ReadAllLines(file_name))
@@ -32,22 +33,18 @@ public class Day7 : IRun
                 .Select(long.Parse)
                 .ToList();
             long res = split[0];
-            split.RemoveAt(0);
+            long curr = split[1];
 
-            long curr = split[0];
-            split.RemoveAt(0);
-
-            if (Calc(res, curr, split, 0, false))
+            if (Calc(res, curr, split, 2, false))
             {
                 res_1 += res;
-                res_2 += res;
             }
-            else if (Calc(res, curr, split, 0, true))
+            else if (Calc(res, curr, split, 2, true))
             {
                 res_2 += res;
             }
         }
 
-        return (res_1, res_2);
+        return (res_1, res_1 + res_2);
     }
 }
