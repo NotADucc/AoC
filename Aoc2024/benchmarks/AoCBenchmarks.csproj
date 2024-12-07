@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aoc\AoC.csproj" />
+    <ProjectReference Include="..\src\AoC.csproj" />
   </ItemGroup>
 
 </Project>
