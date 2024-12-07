@@ -1,6 +1,10 @@
-﻿namespace AoC;
+﻿using System.Runtime.CompilerServices;
+
+namespace AoC;
 
 public static class Helper
 {
-    public static string GetFilesDir() => Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName, "files");
+    public static string WhereAmI([CallerFilePath] string callerFilePath = "") => callerFilePath;
+    public static string GetFilesDir() 
+        => Path.Combine(Directory.GetParent(WhereAmI()).Parent.Parent.FullName, "files");
 }
