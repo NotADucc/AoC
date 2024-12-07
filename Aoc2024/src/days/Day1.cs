@@ -28,10 +28,6 @@ public class Day1 : IRun
             .Select(x => { freq.TryGetValue(x, out var e); return x * e; })
             .Sum();
 
-
-        Console.WriteLine($"Res 1: {res_1}"); // 2113135
-        Console.WriteLine($"Res 2: {res_2}"); // 19097157
-
         return (res_1, res_2);
     }
 }

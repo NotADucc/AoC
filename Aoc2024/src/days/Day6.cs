@@ -81,9 +81,6 @@ public class Day6 : IRun
         }
         if (visited.Add((guard_pos[0], guard_pos[1]))) res_1++;
 
-        Console.WriteLine($"Res 1 : {res_1}"); // 5564
-        Console.WriteLine($"Res 2 : {res_2}"); // 1976
-
         return (res_1, res_2);
     }
 }

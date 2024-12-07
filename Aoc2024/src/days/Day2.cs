@@ -35,9 +35,6 @@ public class Day2 : IRun
         
         int res_1 = res.Sum(x => x.res_1), res_2 = res.Sum(x => x.res_2);
 
-        Console.WriteLine($"Res 1 : {res_1}"); // 564
-        Console.WriteLine($"Res 2 : {res_2}"); // 604
-
         return (res_1, res_2);
     }
 }

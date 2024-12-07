@@ -75,9 +75,6 @@ public class Day5 : IRun
             }
         }
 
-        Console.WriteLine($"Res 1 : {res_1}"); // 5166
-        Console.WriteLine($"Res 2 : {res_2}"); // 4679
-
         return (res_1, res_2);
     }
 }

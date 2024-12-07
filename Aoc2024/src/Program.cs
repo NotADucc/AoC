@@ -2,6 +2,9 @@
 {
     private static void Main(string[] args)
     {
-        new Day6().Run();
+        var res = new Day7().Run();
+
+        Console.WriteLine($"Res 1 : {res.Item1}"); 
+        Console.WriteLine($"Res 2 : {res.Item2}"); 
     }
 }

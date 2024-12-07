@@ -33,9 +33,6 @@ public class Day4 : IRun
             }
         }
 
-        Console.WriteLine($"Res 1 : {res_1}"); // 2414
-        Console.WriteLine($"Res 2 : {res_2}"); // 1871
-
         return (res_1, res_2);
     }
 }
