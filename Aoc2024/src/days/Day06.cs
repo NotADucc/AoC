@@ -1,6 +1,6 @@
 using AoC;
 
-public class Day6 : IRun
+public class Day06 : IRun
 {
     private readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
     public (long, long) Run()

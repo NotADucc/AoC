@@ -9,7 +9,7 @@ namespace Benchmarks.days
         [Benchmark(Baseline = true)]
         public int Refactored()
         {
-            new Day7().Run();
+            new Day07().Run();
             return -1;
         }
 

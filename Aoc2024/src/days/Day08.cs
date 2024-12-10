@@ -1,6 +1,6 @@
 using AoC;
 
-public class Day8 : IRun
+public class Day08 : IRun
 {
     public (long, long) Run()
     {

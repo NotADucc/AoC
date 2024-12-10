@@ -1,10 +1,10 @@
-namespace AoCTesting
+﻿namespace AoCTesting
 {
-    public class Day5Test
+    public class Day08Test
     {
-        private Day5 proj = new();
+        private Day08 proj = new();
         private (long res_1, long res_2) res;
-        public Day5Test()
+        public Day08Test()
         {
             res = proj.Run();
         }
@@ -12,13 +12,13 @@ namespace AoCTesting
         [Fact]
         public void Part1()
         {
-            Assert.Equal(5166, res.res_1);
+            Assert.Equal(285, res.res_1);
         }
 
         [Fact]
         public void Part2()
         {
-            Assert.Equal(4679, res.res_2);
+            Assert.Equal(944, res.res_2);
         }
     }
 }
