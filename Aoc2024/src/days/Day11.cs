@@ -4,7 +4,7 @@ public class Day11 : IRun
 {
     public (long, long) Run()
     {
-        void Process(Dictionary<long, int> freq, long val, ref long score)
+        void Process(Dictionary<long, long> freq, long val, ref long score)
         {
             if (val == 0)
             {
@@ -41,13 +41,13 @@ public class Day11 : IRun
 
         res_1 = input.Length;
 
-        Dictionary<long, int> freq = input
+        Dictionary<long, long> freq = input
             .GroupBy(x => x)
-            .ToDictionary(x => x.Key, x => x.Count());
+            .ToDictionary(x => x.Key, x => (long)x.Count());
         
         for (int i = 0; i < 25; i++)
         {
-            Dictionary<long, int> new_freq = new();
+            var new_freq = new Dictionary<long, long>(freq.Count * 2);
             foreach (var kvp in freq)
             {
                 for (int k = 0; k < kvp.Value; k++)
@@ -62,7 +62,7 @@ public class Day11 : IRun
 
         for (int i = 0; i < 50; i++)
         {
-            Dictionary<long, int> new_freq = new();
+            var new_freq = new Dictionary<long, long>(freq.Count * 2);
             foreach (var kvp in freq)
             {
                 for (int k = 0; k < kvp.Value; k++)
