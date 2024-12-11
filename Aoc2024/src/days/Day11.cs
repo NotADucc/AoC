@@ -4,13 +4,31 @@ public class Day11 : IRun
 {
     public (long, long) Run()
     {
-        (bool, long, long) IsEven(long num)
-        { 
-            var str = num.ToString();
+        void Process(Dictionary<long, int> freq, long val, ref long score)
+        {
+            if (val == 0)
+            {
+                freq.TryAdd(1, 0);
+                freq[1]++;
+                return;
+            }
+            var str = val.ToString();
             var len = str.Length >> 1;
-            return (str.Length & 1) == 0 
-                ? (true, long.Parse(str.Substring(0, len)), long.Parse(str.Substring(len))) 
-                : (false, -1, -1);            
+            if ((str.Length & 1) == 0)
+            {
+                long n1 = long.Parse(str.Substring(0, len)), n2 = long.Parse(str.Substring(len));
+                freq.TryAdd(n1, 0);
+                freq.TryAdd(n2, 0);
+                freq[n1]++;
+                freq[n2]++;
+                score++;
+            }
+            else
+            {
+                val *= 2024;
+                freq.TryAdd(val, 0);
+                freq[val]++;
+            }
         }
 
         string file_name = Path.Combine(Helper.GetFilesDir(), "aoc11.txt");
@@ -21,31 +39,40 @@ public class Day11 : IRun
             .SelectMany(x => x)
             .ToArray();
 
-        var lst_1 = new List<long>(input);
+        res_1 = input.Length;
 
+        Dictionary<long, int> freq = input
+            .GroupBy(x => x)
+            .ToDictionary(x => x.Key, x => x.Count());
+        
         for (int i = 0; i < 25; i++)
         {
-            for (int j = 0; j < lst_1.Count; j++)
+            Dictionary<long, int> new_freq = new();
+            foreach (var kvp in freq)
             {
-                if (lst_1[j] == 0)
+                for (int k = 0; k < kvp.Value; k++)
                 {
-                    lst_1[j] = 1;
-                    continue;
-                }
-                var res = IsEven(lst_1[j]);
-                if (res.Item1)
-                {
-                    lst_1[j] = res.Item2;
-                    lst_1.Insert(j + 1, res.Item3);
-                    j++;
-                }
-                else 
-                {
-                    lst_1[j] *= 2024;
+                    Process(new_freq, kvp.Key, ref res_1);
                 }
             }
+            freq = new_freq;
         }
 
-        return (lst_1.Count, res_2);
+        res_2 = res_1;
+
+        for (int i = 0; i < 50; i++)
+        {
+            Dictionary<long, int> new_freq = new();
+            foreach (var kvp in freq)
+            {
+                for (int k = 0; k < kvp.Value; k++)
+                {
+                    Process(new_freq, kvp.Key, ref res_2);
+                }
+            }
+            freq = new_freq;
+        }
+
+        return (res_1, res_2);
     }
 }
