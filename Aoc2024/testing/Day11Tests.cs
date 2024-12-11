@@ -18,7 +18,7 @@
         [Fact]
         public void Part2()
         {
-            Assert.Equal(0, res.res_2);
+            Assert.Equal(223767210249237, res.res_2);
         }
     }
 }

@@ -4,12 +4,12 @@ public class Day11 : IRun
 {
     public (long, long) Run()
     {
-        void Process(Dictionary<long, long> freq, long val, ref long score)
+        void Process(Dictionary<long, long> f, long val, long count, ref long res)
         {
             if (val == 0)
             {
-                freq.TryAdd(1, 0);
-                freq[1]++;
+                f.TryAdd(1, 0);
+                f[1] += count;
                 return;
             }
             var str = val.ToString();
@@ -17,17 +17,17 @@ public class Day11 : IRun
             if ((str.Length & 1) == 0)
             {
                 long n1 = long.Parse(str.Substring(0, len)), n2 = long.Parse(str.Substring(len));
-                freq.TryAdd(n1, 0);
-                freq.TryAdd(n2, 0);
-                freq[n1]++;
-                freq[n2]++;
-                score++;
+                f.TryAdd(n1, 0);
+                f.TryAdd(n2, 0);
+                f[n1] += count;
+                f[n2] += count;
+                res += count;
             }
             else
             {
                 val *= 2024;
-                freq.TryAdd(val, 0);
-                freq[val]++;
+                f.TryAdd(val, 0);
+                f[val] += count;
             }
         }
 
@@ -47,13 +47,10 @@ public class Day11 : IRun
         
         for (int i = 0; i < 25; i++)
         {
-            var new_freq = new Dictionary<long, long>(freq.Count * 2);
+            var new_freq = new Dictionary<long, long>();
             foreach (var kvp in freq)
             {
-                for (int k = 0; k < kvp.Value; k++)
-                {
-                    Process(new_freq, kvp.Key, ref res_1);
-                }
+                Process(new_freq, kvp.Key, kvp.Value, ref res_1);
             }
             freq = new_freq;
         }
@@ -62,13 +59,10 @@ public class Day11 : IRun
 
         for (int i = 0; i < 50; i++)
         {
-            var new_freq = new Dictionary<long, long>(freq.Count * 2);
+            var new_freq = new Dictionary<long, long>();
             foreach (var kvp in freq)
             {
-                for (int k = 0; k < kvp.Value; k++)
-                {
-                    Process(new_freq, kvp.Key, ref res_2);
-                }
+                Process(new_freq, kvp.Key, kvp.Value, ref res_2);
             }
             freq = new_freq;
         }
