@@ -1,10 +1,10 @@
 ﻿namespace AoCTesting
 {
-    public class Day12Test
+    public class Day13Test
     {
-        private Day11 proj = new();
+        private Day13 proj = new();
         private (long res_1, long res_2) res;
-        public Day12Test()
+        public Day13Test()
         {
             res = proj.Run();
         }
