@@ -2,7 +2,7 @@
 {
     public class Day12Test
     {
-        private Day12 proj = new();
+        private Day11 proj = new();
         private (long res_1, long res_2) res;
         public Day12Test()
         {
