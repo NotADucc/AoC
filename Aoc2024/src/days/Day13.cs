@@ -6,7 +6,6 @@ public class Day13 : IRun
     {
         string file_name = Path.Combine(Helper.GetFilesDir(), "aoc13.txt");
         long res_1 = 0, res_2 = 0;
-        var machines = new List<ClawMachine>();
         var machine = new ClawMachine();
         foreach (var line in File.ReadAllLines(file_name))
         {
@@ -21,15 +20,11 @@ public class Day13 : IRun
             machine.Add(coords[0], coords[1]);
             if (machine.IsFilled())
             { 
-                machines.Add(machine);
+                res_1 += machine.Solve();
+                res_2 += machine.Solve(true);
+
                 machine = new ClawMachine();
             }
-        }
-
-        foreach (var mach in machines)
-        {
-            res_1 += mach.Solve();
-            res_2 += mach.Solve(true);
         }
 
         return (res_1, res_2);
