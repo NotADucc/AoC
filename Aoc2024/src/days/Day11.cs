@@ -31,7 +31,7 @@ public class Day11 : IRun
             }
         }
 
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc11.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc11.txt");
         long res_1 = 0, res_2 = 0;
 
         var input = File.ReadLines(file_name)

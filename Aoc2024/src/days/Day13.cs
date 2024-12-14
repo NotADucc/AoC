@@ -4,7 +4,7 @@ public class Day13 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc13.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc13.txt");
         long res_1 = 0, res_2 = 0;
         var machine = new ClawMachine();
         foreach (var line in File.ReadAllLines(file_name))

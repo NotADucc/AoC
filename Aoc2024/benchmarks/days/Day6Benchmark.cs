@@ -27,7 +27,7 @@ public class Day6Old : IRun
     private readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc6.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc6.txt");
 
         int res_1 = 0, res_2 = 0;
 

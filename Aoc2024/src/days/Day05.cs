@@ -4,7 +4,7 @@ public class Day05 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc5.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc5.txt");
         int res_1 = 0, res_2 = 0;
 
         bool first_half = false;

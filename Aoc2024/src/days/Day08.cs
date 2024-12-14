@@ -4,7 +4,7 @@ public class Day08 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc8.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc8.txt");
         int n = 0, m = 0;
         
         var antennas = new Dictionary<char, List<(int, int)>>();

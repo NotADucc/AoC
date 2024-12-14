@@ -4,7 +4,7 @@ public class Day04 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc4.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc4.txt");
         int res_1 = 0, res_2 = 0;
 
         bool MatchXMAS(char c1, char c2, char c3, char c4) 

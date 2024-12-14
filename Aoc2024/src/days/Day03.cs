@@ -5,7 +5,7 @@ public class Day03 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc3.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc3.txt");
         Regex rgx = new Regex("mul[(]\\d{1,3},\\d{1,3}[)]|do[(][)]|don't[(][)]", RegexOptions.Compiled);
         bool mul = true;
 

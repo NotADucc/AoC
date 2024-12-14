@@ -28,7 +28,7 @@ public class Day06 : IRun
             return 0;
         }
 
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc6.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc6.txt");
 
         int res_1 = 0, res_2 = 0;
 

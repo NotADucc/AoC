@@ -5,7 +5,7 @@ public class Day12 : IRun
     readonly (int, int)[] DIRS = [(-1, 0), (0, 1), (1, 0), (0, -1)];
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc12.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc12.txt");
         long res_1 = 0, res_2 = 0;
 
         var grid = File.ReadAllLines(file_name)

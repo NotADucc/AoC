@@ -4,7 +4,7 @@ public class Day07 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc7.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc7.txt");
         long res_1 = 0, res_2 = 0;
 
         bool Calc(long res, long curr, List<long> nums, int idx, bool pipe)

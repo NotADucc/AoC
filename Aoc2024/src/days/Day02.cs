@@ -4,7 +4,7 @@ public class Day02 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc2.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc2.txt");
 
         bool CheckSafety(List<int> lst)
         {

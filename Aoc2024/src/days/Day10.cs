@@ -4,7 +4,7 @@ public class Day10 : IRun
 {
     public (long, long) Run()
     {
-        string file_name = Path.Combine(Helper.GetFilesDir(), "aoc10.txt");
+        string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc10.txt");
         long res_1 = 0, res_2 = 0;
 
         var input = File.ReadLines(file_name)
