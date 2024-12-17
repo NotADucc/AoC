@@ -1,6 +1,6 @@
 using AoC;
 
-public class Day15 : IRun
+public class Day15 : IRun<long>
 {
     private Dictionary<char, (int, int)> dirs = new Dictionary<char, (int, int)>()
     {

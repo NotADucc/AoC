@@ -1,6 +1,6 @@
 ﻿namespace AoC;
 
-public interface IRun
+public interface IRun<T>
 {
-    (long, long) Run();
+    (T, T) Run();
 }
