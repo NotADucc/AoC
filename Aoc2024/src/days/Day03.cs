@@ -1,7 +1,7 @@
 using AoC;
 using System.Text.RegularExpressions;
 
-public class Day03 : IRun<long>
+public class Day03 : IRun<long, long>
 {
     public (long, long) Run()
     {

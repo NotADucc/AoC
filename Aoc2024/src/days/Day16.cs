@@ -1,6 +1,6 @@
 using AoC;
 
-public class Day16 : IRun<long>
+public class Day16 : IRun<long, long>
 {
     private int[][] dirs = [[0, 1],[1, 0],[0, -1],[-1, 0]];
     public (long, long) Run()

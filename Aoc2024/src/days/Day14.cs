@@ -2,7 +2,7 @@ using AoC;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-public class Day14 : IRun<long>
+public class Day14 : IRun<long, long>
 {
     public (long, long) Run()
     {
