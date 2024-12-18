@@ -14,10 +14,6 @@ public class Day18 : IRun<long, (long, long)>
             .Select(x => (x[0], x[1]))
             .ToArray();
 
-        var corrupted = base_corrupted
-            .Take(CORRUPT_COUNT)
-            .ToHashSet();
-
         int Dijkstra(HashSet<(int, int)> corrupted)
         {
             var q = new PriorityQueue<(int r, int c, int l), int>();
@@ -48,16 +44,21 @@ public class Day18 : IRun<long, (long, long)>
             return -1;
         }
 
-        res_1 = Dijkstra(corrupted);
+        res_1 = Dijkstra(base_corrupted.Take(CORRUPT_COUNT).ToHashSet());
+        int l = CORRUPT_COUNT, r = base_corrupted.Length - 1;
 
-        for (int i = CORRUPT_COUNT; ; i++)
+        while (l <= r)
         {
-            corrupted.Add(base_corrupted[i]);
-            var t = Dijkstra(corrupted);
-            if (t < 0)
+            int mid = (l + r) >> 1;
+            int ans = Dijkstra(base_corrupted.Take(mid).ToHashSet());
+            if (ans > 0)
             {
-                res_2 = i;
-                break;
+                res_2 = mid;
+                l = mid + 1;       
+            }
+            else
+            {
+                r = mid - 1;
             }
         }
 
