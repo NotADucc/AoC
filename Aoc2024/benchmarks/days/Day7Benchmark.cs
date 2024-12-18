@@ -22,7 +22,7 @@ namespace Benchmarks.days
     }
 }
 
-public class Day7Old : IRun
+public class Day7Old : IRun<long, long>
 {
     public (long, long) Run()
     {

@@ -22,7 +22,7 @@ namespace Benchmarks.days
     }
 }
 
-public class Day6Old : IRun
+public class Day6Old : IRun<long, long>
 {
     private readonly int[] dirs = [-1, 0, 1, 0, -1, 0];
     public (long, long) Run()
