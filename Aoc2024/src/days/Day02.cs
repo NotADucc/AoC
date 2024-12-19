@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day02 : IRun<long, long>
 {
@@ -32,7 +32,7 @@ public class Day02 : IRun<long, long>
 
                 return new { res_1, res_2 };
             }).ToArray();
-        
+
         int res_1 = res.Sum(x => x.res_1), res_2 = res.Sum(x => x.res_2);
 
         return (res_1, res_2);

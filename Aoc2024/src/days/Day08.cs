@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day08 : IRun<long, long>
 {
@@ -6,7 +6,7 @@ public class Day08 : IRun<long, long>
     {
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc8.txt");
         int n = 0, m = 0;
-        
+
         var antennas = new Dictionary<char, List<(int, int)>>();
         foreach (var line in File.ReadAllLines(file_name))
         {
@@ -36,9 +36,9 @@ public class Day08 : IRun<long, long>
                     var antenna2 = coord[j];
                     var delta = (antenna2.Item1 - antenna1.Item1, antenna2.Item2 - antenna1.Item2);
 
-                    if (IsInBounds(antenna1.Item1 - delta.Item1, antenna1.Item2 - delta.Item2)) 
+                    if (IsInBounds(antenna1.Item1 - delta.Item1, antenna1.Item2 - delta.Item2))
                         anti_1.Add((antenna1.Item1 - delta.Item1, antenna1.Item2 - delta.Item2));
-                    
+
                     var temp = antenna1;
                     while (IsInBounds(temp.Item1, temp.Item2))
                     {
@@ -48,7 +48,7 @@ public class Day08 : IRun<long, long>
                     }
 
 
-                    if (IsInBounds(antenna2.Item1 + delta.Item1, antenna2.Item2 + delta.Item2)) 
+                    if (IsInBounds(antenna2.Item1 + delta.Item1, antenna2.Item2 + delta.Item2))
                         anti_1.Add((antenna2.Item1 + delta.Item1, antenna2.Item2 + delta.Item2));
 
                     temp = antenna2;

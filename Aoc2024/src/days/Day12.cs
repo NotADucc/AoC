@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day12 : IRun<long, long>
 {

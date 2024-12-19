@@ -1,4 +1,3 @@
-﻿using AoC;
-using Benchmarks.days;
+﻿using Benchmarks.days;
 
 BenchmarkDotNet.Running.BenchmarkRunner.Run<Day9Benchmark>();

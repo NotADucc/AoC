@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day10 : IRun<long, long>
 {
@@ -12,9 +12,9 @@ public class Day10 : IRun<long, long>
             .ToArray();
 
 
-        int DFS(int[][] input, int i, int j, int prev_val, HashSet<(int, int)> visited, bool flag) 
-        { 
-            if (i < 0 || j < 0 || i >= input.Length || j >= input[i].Length || prev_val + 1 != input[i][j] || (flag && visited.Contains((i, j)))) 
+        int DFS(int[][] input, int i, int j, int prev_val, HashSet<(int, int)> visited, bool flag)
+        {
+            if (i < 0 || j < 0 || i >= input.Length || j >= input[i].Length || prev_val + 1 != input[i][j] || flag && visited.Contains((i, j)))
                 return 0;
 
             if (input[i][j] == 9)
@@ -30,12 +30,12 @@ public class Day10 : IRun<long, long>
 
             return val;
         }
-        
+
         for (int i = 0; i < input.Length; i++)
         {
             for (int j = 0; j < input[i].Length; j++)
             {
-                if (input[i][j] != 0) 
+                if (input[i][j] != 0)
                     continue;
 
                 res_1 += DFS(input, i, j, -1, [], true);

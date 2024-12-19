@@ -1,5 +1,6 @@
-using AoC;
 using System.Text.RegularExpressions;
+
+namespace AoC.days;
 
 public class Day03 : IRun<long, long>
 {

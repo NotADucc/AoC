@@ -1,8 +1,8 @@
-using AoC;
+namespace AoC.days;
 
 public class Day18 : IRun<long, (long, long)>
 {
-    private readonly int[][] dirs = [[0, 1],[1, 0],[0, -1],[-1, 0]];
+    private readonly int[][] dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     private readonly int GRID_SIZE = 70, CORRUPT_COUNT = 1024;
     public (long, (long, long)) Run()
     {
@@ -49,12 +49,12 @@ public class Day18 : IRun<long, (long, long)>
 
         while (l <= r)
         {
-            int mid = (l + r) >> 1;
+            int mid = l + r >> 1;
             int ans = Dijkstra(base_corrupted.Take(mid).ToHashSet());
             if (ans > 0)
             {
                 res_2 = mid;
-                l = mid + 1;       
+                l = mid + 1;
             }
             else
             {

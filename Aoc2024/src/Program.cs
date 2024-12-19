@@ -1,4 +1,4 @@
-﻿using AoC;
+﻿using AoC.days;
 
 public class Program
 {

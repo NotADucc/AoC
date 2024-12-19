@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day05 : IRun<long, long>
 {
@@ -19,7 +19,7 @@ public class Day05 : IRun<long, long>
 
             for (int i = 0; i < lst.Count; i++)
             {
-                if (curr.Count <= 0 || (dct.TryGetValue(lst[i], out var t) && t.Contains(curr[curr.Count - 1])))
+                if (curr.Count <= 0 || dct.TryGetValue(lst[i], out var t) && t.Contains(curr[curr.Count - 1]))
                 {
                     int val = lst[i];
                     curr.Add(val);
@@ -68,7 +68,7 @@ public class Day05 : IRun<long, long>
                 {
                     res_1 += half;
                 }
-                else 
+                else
                 {
                     res_2 += half;
                 }

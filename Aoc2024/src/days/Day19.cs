@@ -1,5 +1,4 @@
-using AoC;
-using System.Threading.Tasks.Sources;
+namespace AoC.days;
 
 public class Day19 : IRun<long, long>
 {
@@ -13,7 +12,7 @@ public class Day19 : IRun<long, long>
         var patterns = input[0]
             .Split(',', StringSplitOptions.TrimEntries)
             .ToHashSet();
-        
+
         var display = input
             .Skip(2)
             .ToArray();
@@ -26,9 +25,9 @@ public class Day19 : IRun<long, long>
             {
                 return 1;
             }
-            else 
+            else
             {
-                if (mem.TryGetValue(curr, out long value)) 
+                if (mem.TryGetValue(curr, out long value))
                     return value;
 
                 long score = 0;

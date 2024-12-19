@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day01 : IRun<long, long>
 {
@@ -8,7 +8,7 @@ public class Day01 : IRun<long, long>
 
         (int[] arr1, int[] arr2) = File.ReadAllLines(file_name)
             .Select(line => line.Split("   ").Select(int.Parse).ToArray())
-            .Aggregate((new int[0], new int[0]),      
+            .Aggregate((new int[0], new int[0]),
                 (accu, pair) => (
                     accu.Item1.Concat([pair[0]]).ToArray(),
                     accu.Item2.Concat([pair[1]]).ToArray())

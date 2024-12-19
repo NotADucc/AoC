@@ -1,8 +1,8 @@
-using AoC;
+namespace AoC.days;
 
 public class Day16 : IRun<long, long>
 {
-    private int[][] dirs = [[0, 1],[1, 0],[0, -1],[-1, 0]];
+    private int[][] dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     public (long, long) Run()
     {
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc16.txt");
@@ -59,7 +59,7 @@ public class Day16 : IRun<long, long>
                 q.Enqueue((i, j, new_dir, new_cost), new_cost);
             }
         }
-        
+
         return (res_1, res_2);
     }
 }

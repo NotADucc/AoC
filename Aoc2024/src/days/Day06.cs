@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day06 : IRun<long, long>
 {
@@ -35,7 +35,7 @@ public class Day06 : IRun<long, long>
         int n = 0, m = 0, current_dir = 0;
         var visited = new HashSet<(int, int)>();
         var obs = new HashSet<(int, int)>();
-        
+
         int[] guard_pos = [0, 0];
 
         foreach (string line in File.ReadAllLines(file_name))

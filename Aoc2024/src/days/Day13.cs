@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day13 : IRun<long, long>
 {
@@ -19,7 +19,7 @@ public class Day13 : IRun<long, long>
 
             machine.Add(coords[0], coords[1]);
             if (machine.IsFilled())
-            { 
+            {
                 res_1 += machine.Solve();
                 res_2 += machine.Solve(true);
 
@@ -53,7 +53,7 @@ public class Day13 : IRun<long, long>
                 Prize = new Location(x, y);
             }
         }
-        public bool IsFilled() 
+        public bool IsFilled()
             => ButtonA is not null && ButtonB is not null && Prize is not null;
 
         public long Solve(bool flag = false)
@@ -74,14 +74,14 @@ public class Day13 : IRun<long, long>
 
             y_2 += x_2;
             x_tot /= y_2;
-            
+
 
             long res_x = (long)Math.Round(x_tot);
-            long res_y = ((Prize.X + (flag ? OOPSIE : 0)) - (ButtonB.X * res_x)) / ButtonA.X;
+            long res_y = (Prize.X + (flag ? OOPSIE : 0) - ButtonB.X * res_x) / ButtonA.X;
 
             long p_x = res_y * ButtonA.X + res_x * ButtonB.X;
             long p_y = res_y * ButtonA.Y + res_x * ButtonB.Y;
-            return p_x == Prize.X + (flag ? OOPSIE : 0) && p_y == Prize.Y + (flag ? OOPSIE : 0) ? (res_x * COST_B) + (res_y * COST_A) : 0L;
+            return p_x == Prize.X + (flag ? OOPSIE : 0) && p_y == Prize.Y + (flag ? OOPSIE : 0) ? res_x * COST_B + res_y * COST_A : 0L;
         }
     }
     class Location
@@ -91,8 +91,8 @@ public class Day13 : IRun<long, long>
 
         public Location(long x, long y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
     }
 }

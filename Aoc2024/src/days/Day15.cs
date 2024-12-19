@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day15 : IRun<long, long>
 {
@@ -16,7 +16,7 @@ public class Day15 : IRun<long, long>
         bool first_half = true;
         var grid = new List<char[]>();
         int[] robot = [0, 0];
-        
+
         var grid2 = new List<char[]>();
         int[] robot2 = [0, 0];
 
@@ -52,7 +52,7 @@ public class Day15 : IRun<long, long>
                 }
                 grid2.Add(new_line.ToCharArray());
             }
-            else 
+            else
             {
                 moves.AddRange(line);
             }

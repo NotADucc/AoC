@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day07 : IRun<long, long>
 {
@@ -9,9 +9,9 @@ public class Day07 : IRun<long, long>
 
         bool Calc(long res, long curr, List<long> nums, int idx, bool pipe)
             => idx >= nums.Count || curr > res
-                ? res == curr 
+                ? res == curr
                 : Calc(res, curr + nums[idx], nums, idx + 1, pipe) || Calc(res, curr * nums[idx], nums, idx + 1, pipe)
-                || (pipe && Calc(res, Combine(curr, nums[idx]), nums, idx + 1, pipe));
+                || pipe && Calc(res, Combine(curr, nums[idx]), nums, idx + 1, pipe);
 
         long Combine(long num1, long num2)
         {

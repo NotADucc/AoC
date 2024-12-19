@@ -1,7 +1,9 @@
-using AoC;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
+
+namespace AoC.days;
+
 public class Day14 : IRun<long, long>
 {
     public (long, long) Run()
@@ -49,7 +51,7 @@ public class Day14 : IRun<long, long>
             Width = width;
             Length = length;
         }
-        public void AddRobot(int[] coords) 
+        public void AddRobot(int[] coords)
             => AddRobot(coords[0], coords[1], coords[2], coords[3]);
         public void AddRobot(int start_x, int start_y, int velo_x, int velo_y)
         {

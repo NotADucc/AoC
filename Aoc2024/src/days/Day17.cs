@@ -1,5 +1,4 @@
-using AoC;
-using System;
+namespace AoC.days;
 
 public class Day17 : IRun<string, long>
 {
@@ -44,7 +43,7 @@ public class Day17 : IRun<string, long>
                     if (registars[0] == 0)
                         continue;
 
-                    i = (int) instructions[i + 1] - 2;
+                    i = (int)instructions[i + 1] - 2;
                 }
                 else if (instructions[i] == 4)
                 {
@@ -53,7 +52,7 @@ public class Day17 : IRun<string, long>
                 else if (instructions[i] == 5)
                 {
                     res.Add(combo % 8);
-                    if (flag) 
+                    if (flag)
                         return res;
                 }
                 else if (instructions[i] == 6)
@@ -100,7 +99,7 @@ public class Day17 : IRun<string, long>
             {
                 initial_registars.Add(int.Parse(line.Split(':')[1]));
             }
-            else 
+            else
             {
                 instructions.AddRange(line.Split(':')[1].Split(',').Select(long.Parse));
             }

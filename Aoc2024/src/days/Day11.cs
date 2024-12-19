@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day11 : IRun<long, long>
 {
@@ -44,7 +44,7 @@ public class Day11 : IRun<long, long>
         Dictionary<long, long> freq = input
             .GroupBy(x => x)
             .ToDictionary(x => x.Key, x => (long)x.Count());
-        
+
         for (int i = 0; i < 25; i++)
         {
             var new_freq = new Dictionary<long, long>();

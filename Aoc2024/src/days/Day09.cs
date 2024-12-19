@@ -1,4 +1,4 @@
-using AoC;
+namespace AoC.days;
 
 public class Day09 : IRun<long, long>
 {
@@ -6,7 +6,7 @@ public class Day09 : IRun<long, long>
     {
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc9.txt");
         long res_1 = 0, res_2 = 0;
-        
+
         var input = File.ReadAllText(file_name);
         var lst_1 = new List<int>();
         var lst_2 = new List<int>();
