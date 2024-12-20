@@ -47,25 +47,12 @@ public class Day19 : IRun<long, long>
 
         for (int i = 0; i < display.Length; i++)
         {
-            var s = display[i];
-            int n = display[i].Length;
-            int[] dp = new int[n + 1];
-
-            for (int start = n - 1; start >= 0; start--)
+            var res = Rec(patterns, display[i]);
+            if (res > 0)
             {
-                dp[start] = dp[start + 1] + 1;
-                for (int end = start; end < n; end++)
-                {
-                    var sub = s.Substring(start, end + 1 - start);
-                    if (patterns.Contains(sub))
-                    {
-                        dp[start] = Math.Min(dp[start], dp[end + 1]);
-                    }
-                }
+                res_1++;
+                res_2 += res;
             }
-
-            res_1 += dp[0] == 0 ? 1 : 0;
-            res_2 += Rec(patterns, display[i]);
         }
 
         return (res_1, res_2);
