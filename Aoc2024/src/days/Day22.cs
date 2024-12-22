@@ -10,34 +10,26 @@ public class Day22 : IRun<long, long>
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc22.txt");
         long res_1 = 0, res_2 = 0;
 
+        long MIX(long nm1, long nm2) => nm1 ^ nm2;
+        long PRUNE(long num) => num % 16777216;
+        
         var input = File.ReadAllLines(file_name)
             .Select(long.Parse)
             .ToArray();
 
-        long MIX(long nm1, long nm2) => nm1 ^ nm2;
-        long PRUNE(long num) => num % 16777216;
+        var dct = input.ToDictionary(x => x, x => new List<long>());
 
-        for (int i = 0; i < 2000; i++)
+        foreach (var kvp in dct)
         {
-            for (int j = 0; j < input.Length; j++)
+            var prev = kvp.Key;
+            for (int i = 0; i < 2000; i++)
             {
-                var secret = input[j] * 64;
-                input[j] = MIX(secret, input[j]);
-                input[j] = PRUNE(input[j]);
-
-                secret = input[j] / 32;
-                input[j] = MIX(secret, input[j]);
-                input[j] = PRUNE(input[j]);
-
-                secret = input[j] * 2048;
-                input[j] = MIX(secret, input[j]);
-                input[j] = PRUNE(input[j]);
+                prev = PRUNE(MIX(prev * 64, prev));
+                prev = PRUNE(MIX(prev / 32, prev));
+                prev = PRUNE(MIX(prev * 2048, prev));
+                dct[kvp.Key].Add(prev);
             }
-        }
-
-        for (int i = 0; i < input.Length; i++)
-        {
-            res_1 += input[i];
+            res_1 += prev;
         }
 
         return (res_1, res_2);
