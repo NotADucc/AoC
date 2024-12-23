@@ -1,6 +1,3 @@
-using System.Net.Mime;
-using System.Runtime.InteropServices.Marshalling;
-
 namespace AoC.days;
 
 public class Day22 : IRun<long, long>
