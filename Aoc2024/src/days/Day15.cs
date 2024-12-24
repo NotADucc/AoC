@@ -60,37 +60,16 @@ public class Day15 : IRun<long, long>
 
         foreach (var move in moves)
         {
-            var dir = dirs[move];
-            var pot_loc = grid[robot[0] + dir.Item1][robot[1] + dir.Item2];
-            if (pot_loc == '.')
+            var (can_move, loc) = CanMove(grid, robot, dirs[move]);
+            if (can_move)
             {
-                robot[0] += dir.Item1;
-                robot[1] += dir.Item2;
-            }
-            else if (pot_loc == 'O')
-            {
-                int start_r = robot[0] + dir.Item1;
-                int start_c = robot[1] + dir.Item2;
-
-                while (grid[start_r][start_c] != '.' && grid[start_r][start_c] != '#')
+                int[] pos = [robot[0] + dirs[move].Item1, robot[1] + dirs[move].Item2];
+                if (loc[0] != pos[0] || loc[1] != pos[1])
                 {
-                    start_r += dir.Item1;
-                    start_c += dir.Item2;
-
-                    if (start_r < 0 || start_r >= grid.Count || start_c < 0 || start_c >= grid[start_r].Length)
-                        break;
+                    grid[loc[0]][loc[1]] = 'O';
+                    grid[pos[0]][pos[1]] = '.';
                 }
-
-                if (start_r < 0 || start_r >= grid.Count || start_c < 0 || start_c >= grid[start_r].Length)
-                    continue;
-
-                if (grid[start_r][start_c] == '.')
-                {
-                    grid[robot[0] + dir.Item1][robot[1] + dir.Item2] = '.';
-                    grid[start_r][start_c] = 'O';
-                    robot[0] += dir.Item1;
-                    robot[1] += dir.Item2;
-                }
+                robot = pos;
             }
         }
 
@@ -106,5 +85,22 @@ public class Day15 : IRun<long, long>
         }
 
         return (res_1, res_2);
+    }
+
+    private (bool b, int[] loc) CanMove(List<char[]> grid, int[] pos, (int, int) dir)
+    {
+        int[] new_pos = [pos[0] + dir.Item1, pos[1] + dir.Item2];
+        var tile = grid[new_pos[0]][new_pos[1]];
+        if (tile == '.')
+        {
+            return (true, new_pos);
+        }
+
+        if (tile == '#')
+        {
+            return (false, null!);
+        }
+
+        return CanMove(grid, new_pos, dir);
     }
 }
