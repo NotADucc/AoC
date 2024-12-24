@@ -1,5 +1,6 @@
 ﻿using AoC;
 using AoC.benchmark;
+using AoC.days;
 using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.days
