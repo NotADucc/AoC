@@ -33,8 +33,6 @@ public class Day02 : IRun<long, long>
             res_2 += (line[0] * line[1] * line[2]) + (2 * Math.Min(dim_1, Math.Min(dim_2, dim_3)));
         }
 
-        // 3798106 too high
-        // 4031628
         return (res_1, res_2);
     }
 }
