@@ -5,7 +5,7 @@ public class Day01 : IRun<long, long>
     public (long, long) Run()
     {
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc1.txt");
-        Console.WriteLine(file_name);
+
         (int[] arr1, int[] arr2) = File.ReadAllLines(file_name)
             .Select(line => line.Split("   ").Select(int.Parse).ToArray())
             .Aggregate((new int[0], new int[0]),
