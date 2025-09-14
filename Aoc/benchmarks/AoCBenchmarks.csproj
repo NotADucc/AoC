@@ -15,4 +15,8 @@
     <ProjectReference Include="..\src\AoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="2025\" />
+  </ItemGroup>
+
 </Project>

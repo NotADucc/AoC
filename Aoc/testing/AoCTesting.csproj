@@ -24,4 +24,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="2015\" />
+    <Folder Include="2025\" />
+  </ItemGroup>
+
 </Project>
