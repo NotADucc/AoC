@@ -1,10 +1,10 @@
-using AoC._2024;
+using AoC._2015;
 
 namespace AoCTesting._2015;
 
 public class Day02Test
 {
-    private Day01 proj = new();
+    private Day02 proj = new();
     private (long res_1, long res_2) res;
     public Day02Test() 
     { 
