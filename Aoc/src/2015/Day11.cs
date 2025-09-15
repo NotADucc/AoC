@@ -16,84 +16,58 @@ public class Day11 : IRun<string, string>
     }
 
     private static readonly char[] BANNED_LETTERS = ['i', 'o', 'l'];
-    private static bool is_staircase(char ch1, char ch2, char ch3) =>
-        ch1 + 1 == ch2 && ch2 + 1 == ch3;
-    private string get_next_pw(string pw)
-    { 
-        string valid_pw = string.Empty;
 
-        for (int offset = 1;; offset++)
+    public static string get_next_pw(string start)
+    {
+        char[] pw = start.ToCharArray();
+
+        do
         {
-            // treating the passwords like excel columns
-            string test_pw = int_to_pw(pw_to_int(pw) + offset);
-            HashSet<string> pairs = [];
-            int n = test_pw.Length, staircase_count = 0, last_added_idx = -1;
-            string last_added = string.Empty;
-            bool is_valid = true;
-            for (int i = 0; i < n; i++)
+            increment_pw(pw);
+        } while (!is_valid(pw));
+
+        return new string(pw);
+    }
+
+    private static bool is_valid(char[] pw)
+    {
+        bool has_stair = false;
+        HashSet<char> pairs = new();
+
+        for (int i = 0; i < pw.Length; i++)
+        {
+            if (BANNED_LETTERS.Contains(pw[i]))
+                return false;
+
+            if (i < pw.Length - 2 && pw[i] + 1 == pw[i + 1] && pw[i + 1] + 1 == pw[i + 2])
             {
-                char ch = test_pw[i];
-                if (BANNED_LETTERS.Contains(ch))
-                {
-                    is_valid = false; break;
-                }
-
-                if (i < n - 2)
-                {
-                    if (is_staircase(test_pw[i], test_pw[i + 1], test_pw[i + 2]))
-                    {
-                        staircase_count++;
-                    }
-                }
-
-                if (i < n - 1)
-                {
-                    string key = test_pw.Substring(i, 2);
-                    if (key[0] == key[1])
-                    {
-                        pairs.Add(key);
-                    }
-                }
+                has_stair = true;
             }
 
-            if (is_valid && staircase_count > 0 && pairs.Count > 1)
+            if (i < pw.Length - 1 && pw[i] == pw[i + 1])
             {
-                valid_pw = test_pw;
+                pairs.Add(pw[i]);
+            }
+        }
+
+        return has_stair && pairs.Count > 1;
+    }
+
+    private static void increment_pw(char[] pw)
+    {
+        int i = pw.Length - 1;
+        while (i >= 0)
+        {
+            if (pw[i] == 'z')
+            {
+                pw[i] = 'a';
+                i--;
+            }
+            else
+            {
+                pw[i]++;
                 break;
             }
         }
-
-        return valid_pw;
-    }
-
-    private const int _ASCII_BASE = 'a';
-    private string int_to_pw(long pw_long)
-    {
-        StringBuilder sb = new StringBuilder();
-
-        while (pw_long > 0)
-        {
-            long remainder = (pw_long - 1) % 26;
-
-            char c = (char)(_ASCII_BASE + remainder);
-
-            sb.Insert(0, c);
-
-            pw_long = (pw_long - 1) / 26;
-        }
-
-        return sb.ToString();
-    }
-
-    public long pw_to_int(string pw)
-    {
-        long result = 0;
-        long mpl = 1;
-        for (int i = pw.Length - 1; i >= 0; --i)
-        {
-            result += (pw[i] - _ASCII_BASE + 1) * mpl;
-            mpl *= 26;
-        }
-        return result;
     }
 }
