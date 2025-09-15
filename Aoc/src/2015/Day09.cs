@@ -60,6 +60,7 @@ public class Day09 : IRun<long, long>
         {
             shortest_res = shortest_res == 0 ? current_cost : Math.Min(shortest_res, current_cost);
             longest_res = Math.Max(longest_res, current_cost);
+            return;
         }
 
         foreach (var (w, s, e) in nodes[current_node])
