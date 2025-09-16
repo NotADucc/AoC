@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Printing;
 using System.Dynamic;
 using System.IO.IsolatedStorage;
@@ -18,14 +19,15 @@ public class Day14 : IRun<long, long>
             .Select(extract_instruction)
             .ToArray();
 
-        res_1 = travel(reindeers, DURATION, false).Max();
-        res_2 = travel(reindeers, DURATION, true).Max();
+        var (distance_traveled, point_per_tick) = travel(reindeers, DURATION);
+        res_1 = distance_traveled.Max();
+        res_2 = point_per_tick.Max();
 
         return (res_1, res_2);
     }
 
 
-    private static long[] travel(Reindeer[] reindeers, int duration, bool sol_2)
+    private static (long[] distance_traveled, long[] point_per_tick) travel(Reindeer[] reindeers, int duration)
     {
         int n = reindeers.Length;
         long[] distance_trav = new long[n];
@@ -35,42 +37,24 @@ public class Day14 : IRun<long, long>
         for (int i = 0; i < duration; i++)
         {
             for (int j = 0; j < n; j++)
-            {
                 distance_trav[j] += reindeers[j].get_tick_distance();
-            }
 
-            if (sol_2)
-            {
-                long max_val = distance_trav[0];
-                List<int> idxs = [0];
+            List<int> idxs = distance_trav
+                .Select((val, idx) => new { idx, val })
+                .GroupBy(x => x.val)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()?
+                .Select(x => x.idx)
+                .ToList() ?? [];
 
-                for (int j = 1; j < n; j++)
-                {
-                    if (distance_trav[j] == max_val)
-                    {
-                        idxs.Add(j);
-                    }
-                    else if (distance_trav[j] > max_val)
-                    {
-                        idxs.Clear();
-                        idxs.Add(j);
-                        max_val = distance_trav[j];
-                    }
-                }
-
-                foreach (int idx in idxs)
-                {
-                    offset[idx]++;
-                }
-            }
+            foreach (int idx in idxs) 
+                offset[idx]++;
         }
 
-        for (int i = 0; i < n; i++)
-        {
-            reindeers[i].reset();
-        }
+        for (int i = 0; i < n; i++) 
+            reindeers[i].reset_distance();
 
-        return !sol_2 ? distance_trav : offset;
+        return (distance_trav, offset);
     }
 
     private static Reindeer extract_instruction(string instruction)
@@ -99,10 +83,8 @@ public class Day14 : IRun<long, long>
         public int rest { get; set; }
 
 
-        public bool is_flying => !is_resting;
-        public bool is_resting { get; set; } = false;
-
-
+        private bool is_flying => !is_resting;
+        private bool is_resting = false;
         private int tick = 0;
         public int get_tick_distance()
         {
@@ -124,16 +106,15 @@ public class Day14 : IRun<long, long>
                 return 0;
             }
         }
+        public void reset_distance()
+        {
+            tick = 0;
+            is_resting = false;
+        }
         private void toggle_rest()
         {
             tick = 1;
             is_resting = !is_resting;
-        }
-
-        public void reset()
-        {
-            tick = 0;
-            is_resting = false;
         }
     }
 }
