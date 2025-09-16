@@ -1,13 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Drawing.Printing;
-using System.Dynamic;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Xml.Linq;
-using static System.Formats.Asn1.AsnWriter;
-
 namespace AoC._2015;
 
 public class Day16 : IRun<long, long>

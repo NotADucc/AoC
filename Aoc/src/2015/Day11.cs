@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Drawing.Printing;
-using System.Text;
-
 namespace AoC._2015;
 
 public class Day11 : IRun<string, string>

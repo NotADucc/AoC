@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-
 namespace AoC._2015;
 
 public class Day07 : IRun<long, long>

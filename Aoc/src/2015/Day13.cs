@@ -1,8 +1,3 @@
-using System.Drawing.Printing;
-using System.Dynamic;
-using System.IO.IsolatedStorage;
-using System.Text.Json;
-
 namespace AoC._2015;
 
 public class Day13 : IRun<long, long>

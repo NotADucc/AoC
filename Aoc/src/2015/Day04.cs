@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace AoC._2015;
 
 public class Day04 : IRun<long, long>

@@ -1,5 +1,4 @@
-﻿using AoC;
-using AoC._2015;
+﻿using AoC._2015;
 
 public class Program
 {

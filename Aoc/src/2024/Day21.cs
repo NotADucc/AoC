@@ -1,5 +1,3 @@
-using System.Net.Mime;
-
 namespace AoC._2024;
 
 public class Day21 : IRun<long, long>
