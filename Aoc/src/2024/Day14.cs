@@ -9,7 +9,7 @@ public class Day14 : IRun<long, long>
     public (long, long) Run()
     {
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc14.txt");
-        string output_path = Path.Combine(Helper.GetBaseDir(), "IO", "2024", "AOC14");
+        string output_path = Path.Combine(Helper.GetOutputFilesDir(), "AOC14");
         if (!Directory.Exists(output_path)) 
             Directory.CreateDirectory(output_path);
 
