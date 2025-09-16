@@ -1,3 +1,3 @@
-[submodule "AoC2024Inputs"]
-	path = AoCInputs
-	url = git@github.com:NotADucc/AoC2024Inputs.git
+[submodule "AoCInput"]
+	path = AoCInput
+	url = https://github.com/notaducc/AoCInput.git
