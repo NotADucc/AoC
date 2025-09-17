@@ -78,6 +78,7 @@ public class Day19 : IRun<long, long>
             }
         }
 
+        // gets the first result that equals to "e" and not lowest step count but it seems to work for my dataset
         res_2 = transform_molecule(
             reverse_replacements,
             molecules,
