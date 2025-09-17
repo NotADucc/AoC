@@ -1,25 +1,25 @@
-﻿using AoC._2024;
+﻿using AoC;
+using AoC._2024;
 
 namespace AoCTesting._2024;
 
 public class Day16Test
 {
-    private Day16 proj = new();
-    private (long res_1, long res_2) res;
+    private (object res_1, object res_2) res;
     public Day16Test()
     {
-        res = proj.Run();
+        res = Helper.RunAocDayBasedOnCallerPath();
     }
 
     [Fact]
     public void Part1()
     {
-        Assert.Equal(91464, res.res_1);
+        Assert.Equal(91464L, res.res_1);
     }
 
     [Fact]
     public void Part2()
     {
-        Assert.Equal(494, res.res_2);
+        Assert.Equal(494L, res.res_2);
     }
 }

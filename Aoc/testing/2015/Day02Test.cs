@@ -1,25 +1,25 @@
+using AoC;
 using AoC._2015;
 
 namespace AoCTesting._2015;
 
 public class Day02Test
 {
-    private Day02 proj = new();
-    private (long res_1, long res_2) res;
-    public Day02Test() 
-    { 
-        res = proj.Run();
+    private (object res_1, object res_2) res;
+    public Day02Test()
+    {
+        res = Helper.RunAocDayBasedOnCallerPath();
     }
 
     [Fact]
     public void Part1()
     {
-        Assert.Equal(1588178, res.res_1);
+        Assert.Equal(1588178L, res.res_1);
     }
 
     [Fact]
     public void Part2()
     {
-        Assert.Equal(3783758, res.res_2);
+        Assert.Equal(3783758L, res.res_2);
     }
 }

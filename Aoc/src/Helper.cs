@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace AoC;
 
@@ -31,34 +32,38 @@ public static class Helper
 
     public static (string day, object? result1, object? result2) RunYear(int year, int? day = null)
     {
-        string namespaceName = $"AoC._{year}";
+        string name_space = $"AoC._{year}";
         var assembly = Assembly.GetExecutingAssembly();
 
-        var dayTypes = assembly
+        var day_types = assembly
             .GetTypes()
-            .Where(t => t.IsClass && t.Namespace == namespaceName && t.Name.StartsWith("Day"));
+            .Where(t => t.IsClass && t.Namespace == name_space && t.Name.StartsWith("Day"));
 
-        Type dayType = (day is not null
-            ? dayTypes.Where(t => t.Name == $"Day{day.Value:D2}").FirstOrDefault()
-            : dayTypes.OrderByDescending(t => t.Name).FirstOrDefault()) 
+        Type day_type = (day is not null
+            ? day_types.FirstOrDefault(t => t.Name == $"Day{day.Value:D2}")
+            : day_types.OrderByDescending(t => t.Name).FirstOrDefault())
             ?? throw new ArgumentException($"could not find year: {year}");
 
-        var instance = Activator.CreateInstance(dayType);
-        var method = dayType.GetMethod("Run") 
-            ?? throw new ArgumentException($"could not find year: {year}");
-        
-        var result = method.Invoke(instance, null);
+        var instance = Activator.CreateInstance(day_type) as IRun
+            ?? throw new ArgumentException($"type {day_type.Name} does not implement IRun");
 
-        object? item1 = null;
-        object? item2 = null;
+        var (result1, result2) = instance.RunUntyped();
+        return (day_type.Name, result1, result2);
+    }
 
-        if (result != null && result.GetType().IsValueType &&
-            result.GetType().FullName!.StartsWith("System.ValueTuple"))
-        {
-            item1 = result.GetType().GetField("Item1")?.GetValue(result);
-            item2 = result.GetType().GetField("Item2")?.GetValue(result);
-        }
+    public static (object? result1, object? result2) RunAocDayBasedOnCallerPath([CallerFilePath] string callerFilePath = "")
+    {
+        string file_name = Path.GetFileName(callerFilePath);
+        string base_relative_path = Directory.GetParent(callerFilePath).FullName;
+        if (!int.TryParse(base_relative_path[base_relative_path.LastIndexOf(@"\")..][1..], out int year))
+            throw new ArgumentException("cant detect year from caller class execution path");
 
-        return (dayType.Name, item1, item2);
+
+        if (!int.TryParse(Regex.Match(file_name, @"\d+").Value, out int day))
+            throw new ArgumentException("cant detect day from caller class execution path");
+
+        (string _, object? resul_t1, object? result_2) = RunYear(year, day);
+
+        return (resul_t1, result_2);
     }
 }
