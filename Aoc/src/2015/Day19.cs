@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 namespace AoC._2015;
 
 public class Day19 : IRun<long, long>

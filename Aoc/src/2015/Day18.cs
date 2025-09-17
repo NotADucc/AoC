@@ -1,5 +1,3 @@
-using System;
-
 namespace AoC._2015;
 
 public class Day18 : IRun<long, long>
