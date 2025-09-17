@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Numerics;
-
 namespace AoC._2015;
 
 public class Day20 : IRun<long, long>

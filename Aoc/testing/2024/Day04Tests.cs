@@ -1,5 +1,4 @@
 using AoC;
-using AoC._2024;
 
 namespace AoCTesting._2024;
 
