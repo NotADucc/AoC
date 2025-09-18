@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 namespace AoC._2015;
 
 public class Day22 : IRun<long, long>
@@ -11,7 +13,7 @@ public class Day22 : IRun<long, long>
 
         var boss = new Entity(
             name: "boss",
-            mana: 100_000_000,
+            mana: 0,
             hp: int.Parse(input[0].Split(": ")[1]),
             base_damage: int.Parse(input[1].Split(": ")[1])
         );
@@ -23,22 +25,23 @@ public class Day22 : IRun<long, long>
             base_damage: 0
         );
 
-        for (int i = 0; i < 100_000; i++)
+        // it's technically possible that you get the wrong answer
+        // increase iteration count for more accurate reading
+        for (int i = 0; i < 40_000; i++)
         {
             bool has_won = has_player_won_fight(player, boss, false);
 
             if (has_won)
             {
-                res_1 = Math.Min(res_1, player.get_mana_used());
+                res_1 = Math.Min(res_1, player.mana_spend);
             }
             player.reset_mana_spend();
 
             has_won = has_player_won_fight(player, boss, true);
             if (has_won)
             { 
-                res_2 = Math.Min(res_2, player.get_mana_used());
+                res_2 = Math.Min(res_2, player.mana_spend);
             }
-
             player.reset_mana_spend();
         }
 
@@ -56,14 +59,8 @@ public class Day22 : IRun<long, long>
         EoTManager eot_manager = new EoTManager(boss:boss, player:player);
         bool player_turn = true;
         
-        Spell burn = Arsenal.Burn;
-        EoT eot_burn = new EoT(
-            burn.name,
-            burn.rounds,
-            burn.persistent_effect,
-            burn.effect_on_caster!,
-            burn.cleanup
-        );
+        Spell burn = SpellFactory.Burn;
+        EoT eot_burn = burn.effect_on_enemy!();
 
         if (hard_mode)
         { 
@@ -80,46 +77,31 @@ public class Day22 : IRun<long, long>
             if (hard_mode && !player_turn)
             {
                 eot_manager.remove_player_effect(eot_burn);
+                eot_manager.trigger_player_effect();
+                eot_manager.insert_player_effect_at_front(eot_burn);
             }
-            eot_manager.trigger_player_effect();
+            else 
+            {
+                eot_manager.trigger_player_effect();
+            }
             if (player.has_died())
             {
                 return reset_state(false);
-            }
-            if (hard_mode && !player_turn)
-            {
-                eot_manager.insert_player_effect_at_front(eot_burn);
             }
             if (player_turn)
             {
                 Spell valid_spell = null;
                 while (true)
                 {
-                    valid_spell = Arsenal.get_random_spell();
                     bool added_eot_caster = true, added_eot_enemy = true;
+                    valid_spell = SpellFactory.get_random_spell();
                     if (valid_spell.effect_on_caster is not null)
                     {
-                        EoT eot = new EoT(
-                            valid_spell.name, 
-                            valid_spell.rounds, 
-                            valid_spell.persistent_effect, 
-                            valid_spell.effect_on_caster, 
-                            valid_spell.cleanup
-                        );
-                        if (!eot_manager.add_player_effect(eot))
-                            added_eot_caster = false;
+                        added_eot_caster = eot_manager.add_player_effect(valid_spell.effect_on_caster());
                     }
                     if (valid_spell.effect_on_enemy is not null)
                     {
-                        EoT eot = new EoT(
-                            valid_spell.name,
-                            valid_spell.rounds,
-                            valid_spell.persistent_effect,
-                            valid_spell.effect_on_enemy,
-                            valid_spell.cleanup
-                        );
-                        if (!eot_manager.add_boss_effect(eot))
-                            added_eot_enemy = false;
+                        added_eot_enemy = eot_manager.add_boss_effect(valid_spell.effect_on_enemy());
                     }
                     if (added_eot_caster && added_eot_enemy)
                         break;
@@ -149,13 +131,13 @@ public class Day22 : IRun<long, long>
     }
     private class Entity
     {
-        public string name { get; set; }
+        public string name { get; init; }
         public int hp { get; set; }
         private readonly int reset_hp;
 
         public int mana { get; set; }
         private readonly int reset_mana;
-        private int mana_spend;
+        public int mana_spend { get; private set; }
 
         public int base_damage { get; set; }
         private readonly int reset_base_damage;
@@ -169,12 +151,7 @@ public class Day22 : IRun<long, long>
             this.mana_spend = this.base_armour = 0;
         }
 
-        private int calculate_hit(int damage)
-        {
-            damage -= base_armour;
-            return Math.Max(damage, 1);
-        }
-
+        private int calculate_hit(int damage) => Math.Max(damage - base_armour, 1);
         public bool take_dmg_and_survive(int damage)
         {
             if (damage <= 0)
@@ -184,11 +161,9 @@ public class Day22 : IRun<long, long>
             return hp > 0;
         }
         public bool has_died() => hp <= 0;
-        public bool can_use_mana(int mana) => 
-            this.mana >= mana;
         public bool use_mana(int mana)
         {
-            if (!can_use_mana(mana))
+            if (this.mana < mana)
                 return false;
 
             this.mana -= mana;
@@ -196,7 +171,6 @@ public class Day22 : IRun<long, long>
 
             return true;
         }
-        public int get_mana_used() => this.mana_spend;
         public void reset_combat_stats()
         {
             hp = reset_hp;
@@ -204,10 +178,7 @@ public class Day22 : IRun<long, long>
             base_damage = reset_base_damage;
             base_armour = 0;
         }
-        public void reset_mana_spend()
-        {
-            mana_spend = 0;
-        }
+        public void reset_mana_spend() => mana_spend = 0;
     }
     private class EoTManager 
     {
@@ -273,76 +244,57 @@ public class Day22 : IRun<long, long>
             return entity;
         }
     }
-    private class Arsenal
+    private class SpellFactory
     {
         public static readonly Spell MagicMissile = new Spell(
             name: "magic missile",
             cost: 53,
             damage: 4,
-            rounds: 0,
-            persistent_effect: false,
             effect_on_caster: null,
-            effect_on_enemy: null,
-            cleanup: null
+            effect_on_enemy: null
         );
 
         public static readonly Spell Drain = new Spell(
             name: "drain",
             cost: 73,
             damage: 2,
-            rounds: 1,
-            persistent_effect: true,
-            effect_on_caster: (e) => e.hp += 2,
-            effect_on_enemy: null,
-            cleanup: null
+            effect_on_caster: () => new EoT("drain", 1, true, (e) => e.hp += 2, null),
+            effect_on_enemy: null
         );
 
         public static readonly Spell Shield = new Spell(
             name: "shield",
             cost: 113,
             damage: 0,
-            rounds: 6,
-            persistent_effect: false,
-            effect_on_caster: (e) => e.base_armour += 7,
-            effect_on_enemy: null,
-            cleanup: (e) => e.base_armour -= 7
+            effect_on_caster: () => new EoT("shield", 6, false, (e) => e.base_armour += 7, (e) => e.base_armour -= 7),
+            effect_on_enemy: null
         );
 
         public static readonly Spell Poison = new Spell(
             name: "poison",
             cost: 173,
             damage: 0,
-            rounds: 6,
-            persistent_effect: true,
             effect_on_caster: null,
-            effect_on_enemy: (e) => e.hp -= 3,
-            cleanup: null
+            effect_on_enemy: () => new EoT("poison", 6, true, (e) => e.hp -= 3, null)
         );
 
         public static readonly Spell Recharge = new Spell(
             name: "recharge",
             cost: 229,
             damage: 0,
-            rounds: 5,
-            persistent_effect: true,
-            effect_on_caster: (e) => e.mana += 101,
-            effect_on_enemy: null,
-            cleanup: null
+            effect_on_caster: () => new EoT("recharge", 5, true, (e) => e.mana += 101, null),
+            effect_on_enemy: null
         );
-
 
         public static readonly Spell Burn = new Spell(
             name: "burn",
             cost: 0,
             damage: 0,
-            rounds: int.MaxValue,
-            persistent_effect: true,
-            effect_on_caster: (e) => e.hp -= 1,
-            effect_on_enemy: null,
-            cleanup: null
+            effect_on_caster: null,
+            effect_on_enemy: () => new EoT("burn", int.MaxValue, true, (e) => e.hp -= 1, null)
         );
 
-        public static readonly List<Spell> spells = new()
+        private static readonly List<Spell> available_spells = new List<Spell>()
         {
             MagicMissile,
             Drain,
@@ -350,35 +302,29 @@ public class Day22 : IRun<long, long>
             Poison,
             Recharge
         };
-
         private static readonly Random random = new Random();
-        public static Spell get_random_spell()
-        {
-            var idx = random.Next(spells.Count);
-            return spells[idx];
-        }
+        public static Spell get_random_spell() => available_spells[random.Next(available_spells.Count)];
     }
     private record Spell(
         string name,
         int cost,
         int damage,
-        int rounds,
-        bool persistent_effect,
-        Action<Entity>? effect_on_caster,
-        Action<Entity>? effect_on_enemy,
-        Action<Entity>? cleanup
-    );
+        Func<EoT>? effect_on_caster,
+        Func<EoT>? effect_on_enemy
+    )
+    {
+        public virtual bool Equals(Spell? obj) => obj is not null && name == obj.name;
+        public override int GetHashCode() => HashCode.Combine(name);
+    }
+
     private class EoT(string name, int rounds, bool persistent, Action<Entity> effect, Action<Entity>? cleanup)
     {
         public string Name { get; } = name;
         public int Rounds { get; set; } = rounds;
-        public bool Persistent { get; set; } = persistent;
+        public bool Persistent { get; } = persistent;
         public Action<Entity> Effect { get; } = effect;
         public Action<Entity>? Cleanup { get; } = cleanup;
-
-        public override bool Equals(object? obj) => obj is EoT t &&
-                   Name == t.Name;
+        public override bool Equals(object? obj) => obj is EoT t && Name == t.Name;
         public override int GetHashCode() => HashCode.Combine(Name);
     }
-    private class EoTAlreadyActiveException() : Exception() { }
 }
