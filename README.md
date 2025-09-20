@@ -1,6 +1,9 @@
-My solutions for https://adventofcode.com/
+# My solutions for https://adventofcode.com/
 
-2015: WOP (Did them after official release) (if you ever see 2014 in history, I meant 2015)
+I only did years 2024+ on release.
+
+## Progress
+2015: Solved 50/50
 
 2016: /
 
@@ -18,4 +21,4 @@ My solutions for https://adventofcode.com/
 
 2023: /
 
-2024: Solved 43/50 (Technically 42/49 Since 50 was free)
+2024: Solved 42/50
