@@ -4,11 +4,7 @@ namespace AoCTesting._2015;
 
 public class Day21Test
 {
-    private (object? res_1, object? res_2) res;
-    public Day21Test() 
-    {
-        res = Helper.RunAocDayBasedOnCallerPath();
-    }
+    private (object? res_1, object? res_2) res = Helper.RunAocDayBasedOnCallerPath();
 
     [Fact]
     public void Part1()

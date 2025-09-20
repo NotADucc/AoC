@@ -1,20 +1,20 @@
 using AoC;
 
-namespace AoCTesting._2024;
+namespace AoCTesting._2015;
 
-public class Day02Test
+public class Day24Test
 {
     private (object? res_1, object? res_2) res = Helper.RunAocDayBasedOnCallerPath();
 
     [Fact]
     public void Part1()
     {
-        Assert.Equal(564L, res.res_1);
+        Assert.Equal(11846773891L, res.res_1);
     }
 
     [Fact]
     public void Part2()
     {
-        Assert.Equal(604L, res.res_2);
+        Assert.Equal(80393059L, res.res_2);
     }
 }
