@@ -1,0 +1,92 @@
+name: build_readme
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.cs'
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive 
+          token: ${{ secrets.AOC_PAT }} 
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./Aoc/testing/AoCTesting.csproj
+
+      - name: Run tests per year folder
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          New-Item -ItemType Directory -Force -Path ./TestResults
+          foreach ($yearDir in Get-ChildItem Aoc/testing/201*, Aoc/testing/202* -Directory) {
+              $year = $yearDir.Name
+              Write-Host "Running tests for year $year ..."
+              
+              dotnet test ./Aoc/testing/AoCTesting.csproj `
+                --filter "FullyQualifiedName~AoCTesting._$year" `
+                --logger "trx;LogFileName=${year}_results.trx" `
+                --results-directory "./TestResults/$year" `
+                --verbosity normal
+
+              Write-Host "Checking for TRX files in ./TestResults/$year"
+              Get-ChildItem ./TestResults/$year
+          }
+
+
+      - name: Summarize test results
+        shell: pwsh
+        run: |
+          $readmePath = "./README.md"
+          $summaryTable = @()
+          $summaryTable += "# AoC Progress https://adventofcode.com/"
+          $summaryTable += ""
+          $summaryTable += "| Year | Passed | Failed | Total |"
+          $summaryTable += "|------|--------|--------|-------|"
+
+          foreach ($yearDir in Get-ChildItem ./TestResults -Directory) {
+            $year = $yearDir.Name
+
+            $trxFile = "$($yearDir.FullName)\*.trx"
+            [xml]$trx = Get-Content $trxFile
+            $counters = $trx.TestRun.ResultSummary.Counters
+
+            $total = [int]$counters.total
+            $total_passed = [int]$counters.passed
+            $total_error = [int]$counters.error
+            $total_failed = [int]$counters.failed
+            $total_failed_and_error = $total_error + $total_failed
+
+            $summaryTable += "| $year | $total_passed | $total_failed_and_error | $total |"
+          }
+
+          $summaryTable -join "`n" | Set-Content -Path $readmePath
+
+          git config --global user.email "robertohelper@outlook.com"
+          git config --global user.name "Gwilom-Bot"
+
+          git add $readmePath
+
+          $hasChanges = -not (git diff --cached --quiet)
+
+          if ($hasChanges) {
+              git commit -m "feature: updated README"
+              git push
+          }
+
+      # - name: Upload all test results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: AoC-test-results
+      #     path: ./TestResults
