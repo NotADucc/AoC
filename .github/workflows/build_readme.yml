@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - '**.cs'
-    branches: [ "update-readme" ]
+    branches: [ "main" ]
 
 jobs:
   test:
