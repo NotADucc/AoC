@@ -60,6 +60,7 @@ public class Day02 : IRun<long, long>
                 .ToArray();
             long start = ranges[0];
             long end = ranges[1];
+
             // either tostring everything
             // or be smart and do some string manip
             // im not doing the smart way el hehe
@@ -74,29 +75,23 @@ public class Day02 : IRun<long, long>
                 // 124512
                 // ig it has to repeat all the way
 
-
                 for (int comparison_len = 1; comparison_len < num_len; comparison_len++)
                 {
+                    var compare_against = num.Substring(0, comparison_len);
                     bool matches = true;
  
                     for (int num_idx = comparison_len; num_idx < num_len; num_idx += comparison_len)
                     {
-                        if (num_len % comparison_len != 0)
+                        bool is_invalid = num_len % comparison_len != 0
+                            || num_idx + comparison_len > num_len;
+
+                        if (!is_invalid)
                         {
-                            matches = false;
-                            continue;
+                            var sub = num.Substring(num_idx, comparison_len);
+                            is_invalid |= !compare_against.Equals(sub);
                         }
 
-                        var compare_against = num.Substring(0, comparison_len);
-
-                        if (num_idx + comparison_len > num_len)
-                        {
-                            matches = false;
-                            continue;
-                        }
-
-                        var sub = num.Substring(num_idx, comparison_len);
-                        if (!compare_against.Equals(sub))
+                        if (is_invalid)
                         {
                             matches = false;
                             break;
