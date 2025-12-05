@@ -13,47 +13,28 @@ public class Day05 : IRun<long, long>
 
         foreach (var ingredient in instructions)
         {
-            var idx = 0;
-
-            while (idx < ranges.Count && ranges[idx].Start <= ingredient)
+            // wait bf is just fast???????
+            for (int idx = 0; idx < ranges.Count && ranges[idx].Start <= ingredient; idx++)
             {
                 if (ingredient >= ranges[idx].Start && ingredient <= ranges[idx].End)
                 {
                     res_1++;
                     break;
                 }
-                // how did i not inf loop
-                // wait bf is just fast???????
-                idx++;
             }
         }
 
-        // can you make assumptiuons?
-        // wel it's ordered
-        // but ye....
-        // smallest is idx 0 start and biggest idx -1 end
-
-        var last_range = ranges[0];
-        res_2 += last_range.End - last_range.Start + 1;
-        long biggest_end = last_range.End;
-
-        for (int i = 0; i < ranges.Count; i++)
+        foreach (var range in ranges)
         {
-            var range = ranges[i];
-            var offset = biggest_end < range.Start ? 1 : 0;
-
-            biggest_end = Math.Max(biggest_end, range.Start);
-            long add = Math.Max(0, range.End - biggest_end + offset);
-            biggest_end = Math.Max(biggest_end, range.End);
-            res_2 += add;
+            res_2 += range.End - range.Start + 1;
         }
 
         return (res_1, res_2);
     }
     private static (List<Ranges> ranges, List<long> instructions) init(string[] lines) 
     {
-        List<Ranges> ranges = [];
-        List<long> instructions = [];
+        List<Ranges> ans_ranges = [];
+        List<long> ans_instructions = [];
         bool has_seen_skip = false;
 
         foreach (var line in lines)
@@ -66,21 +47,43 @@ public class Day05 : IRun<long, long>
 
             if (has_seen_skip)
             {
-                instructions.Add(long.Parse(line));
+                ans_instructions.Add(long.Parse(line));
             }
             else
             {
                 var range = line.Split("-");
-                ranges.Add(new(long.Parse(range[0]), long.Parse(range[1])));
+                ans_ranges.Add(new(long.Parse(range[0]), long.Parse(range[1])));
             }
         }
 
-        ranges = ranges
+        var sorted_ranges = ans_ranges
             .OrderBy(x => x.Start)
             .ThenBy(x => x.End)
             .ToList();
 
-        return (ranges, instructions);
+        ans_ranges.Clear();
+        ans_ranges.Add(sorted_ranges[0]);
+
+        for (int i = 1; i < sorted_ranges.Count; i++)
+        {
+            var prev_range = ans_ranges[^1];
+            var current_range = sorted_ranges[i];
+
+            if (current_range.Start <= prev_range.End)
+            {
+                prev_range.End = Math.Max(prev_range.End, current_range.End);
+            }
+            else 
+            {
+                ans_ranges.Add(current_range);
+            }
+        }
+
+        return (ans_ranges, ans_instructions);
     }
-    private record Ranges(long Start, long End);
+    private class Ranges(long start, long end)
+    {
+        public long Start { get; set; } = start;
+        public long End { get; set; } = end;
+    }
 }
