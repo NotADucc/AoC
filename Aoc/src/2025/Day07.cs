@@ -11,26 +11,14 @@ public class Day07 : IRun<long, long>
         string file_name = Path.Combine(Helper.GetInputFilesDir(), "aoc7.txt");
         long res_1 = 0, res_2 = 0;
         
-        // what if 2 splitters next to eachother?
-        //  |
-        //  ^^
-        
-        // |^^
-        // OR
-        // |^^|
-
         var lines = File.ReadAllLines(file_name)
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
 
         int start_width = lines[0].IndexOf('S');
         
-        var res = rec2(lines, 0, start_width);
-
         res_1 = rec1(lines, 0, start_width);
         res_2 = rec2(lines, 0, start_width);
-
-        // res 2 low: 66512
 
         return (res_1, res_2);
     }
@@ -55,7 +43,6 @@ public class Day07 : IRun<long, long>
                 return;
             }
 
-            long split = 0;
             if (lines[next_depth][inner_width] == '.')
             {
                 inner(next_depth, inner_width);
