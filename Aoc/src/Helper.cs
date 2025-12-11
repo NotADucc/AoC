@@ -66,4 +66,12 @@ public static class Helper
 
         return (resul_t1, result_2);
     }
+
+    public static bool IsRunningUnitTest()
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .Any(a => a.FullName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase)
+                   || a.FullName.StartsWith("nunit", StringComparison.OrdinalIgnoreCase)
+                   || a.FullName.StartsWith("Microsoft.VisualStudio.TestPlatform", StringComparison.OrdinalIgnoreCase));
+    }
 }

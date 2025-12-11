@@ -28,7 +28,8 @@ public class Day14 : IRun<long, long>
         for (int i = 0; i < 100; i++)
         {
             grid.Update();
-            grid.Draw(output_path, i + 1);
+            if (!Helper.IsRunningUnitTest())
+                grid.Draw(output_path, i + 1);
         }
 
         foreach (var score in grid.GetQuadrantScores())
@@ -39,7 +40,8 @@ public class Day14 : IRun<long, long>
         for (int i = 100; i < 10_000; i++)
         {
             grid.Update();
-            grid.Draw(output_path, i + 1);
+            if (!Helper.IsRunningUnitTest())
+                grid.Draw(output_path, i + 1);
         }
 
         return (res_1, res_2);
