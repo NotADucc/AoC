@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -27,50 +28,29 @@ public class Day11 : IRun<long, long>
             );
         }
 
-        res_1 = rec1("you", routes);
-        res_2 = rec2("svr", routes);
+        res_1 = rec("you", routes, (v) => true, (v) => true);
+        res_2 = rec("svr", routes, (v) => v.Contains("dac"), (v) => v.Contains("fft"));
 
         return (res_1, res_2);
     }
 
-    private long rec1(string start, Dictionary<string, HashSet<string>> routes)
-    {
-        const string END = "out";
-        long res = 0;
-
-        void inner(string node) 
-        {
-            if (node.Equals(END))
-            {
-                res++;
-                return;
-            }
-            if (routes.TryGetValue(node, out var start_routes))
-            {
-                foreach (var route in start_routes)
-                {
-                    inner(route);
-                }
-            }
-        }
-
-        inner(start);
-
-        return res;
-    }
-
-    private long rec2(string start, Dictionary<string, HashSet<string>> routes)
+    private long rec(
+        string start, 
+        Dictionary<string, HashSet<string>> routes,
+        Predicate<HashSet<string>> pred1,
+        Predicate<HashSet<string>> pred2
+        )
     {
         const string END = "out";
         Dictionary<string, long> memo = [];
 
         long inner(string prev, string curr, HashSet<string> visited)
         {
-            string key = $"{prev}:{curr}:{visited.Contains("dac")}:{visited.Contains("fft")}";
+            string key = $"{prev}:{curr}:{pred1.Invoke(visited)}:{pred2.Invoke(visited)}";
             if (curr.Equals(END))
             {
                 int t = 0;
-                if (visited.Contains("dac") && visited.Contains("fft"))
+                if (pred1.Invoke(visited) && pred2.Invoke(visited))
                     t++;
 
                 memo[key] = t;
@@ -78,7 +58,7 @@ public class Day11 : IRun<long, long>
             }
 
             if (memo.TryGetValue(key, out long value))
-            { 
+            {
                 return value;
             }
 
@@ -98,8 +78,6 @@ public class Day11 : IRun<long, long>
             return res;
         }
 
-        var inn = inner(string.Empty, start, [start]);
-
-        return inn;
+        return inner(string.Empty, start, [start]);
     }
 }
