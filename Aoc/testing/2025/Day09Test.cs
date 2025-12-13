@@ -15,6 +15,6 @@ public class Day09Test
     [Fact]
     public void Part2()
     {
-        Assert.Equal(0L, res.res_2);
+        Assert.Equal(1396494456L, res.res_2);
     }
 }
